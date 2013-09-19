@@ -59,10 +59,14 @@ public class TableModel extends EventDispatcher
         }
     }
 
-    public function makeTurn(col:int,row:int):void
+    public function makeTurn(col:int, row:int):void
     {
-        _table[col][row] = players[currentPlayer].cellType;
-        dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED,col,row,players[currentPlayer].cellType));
+        if (_table[col][row] == CellTypes.EMPTY_CELL)
+        {
+            _table[col][row] = players[currentPlayer].cellType;
+            dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED, col, row, players[currentPlayer].cellType));
+            currentPlayer == 0 ? currentPlayer = 1 : currentPlayer = 0;
+        }
     }
 
     public function get lineThickness():int
@@ -93,6 +97,7 @@ public class TableModel extends EventDispatcher
     public function set currentPlayer(value:int):void
     {
         _currentPlayer = value;
+        dispatchEvent(new GameEvent(GameEvent.CURRENT_PLAYER_CHANGED));
     }
 }
 }

@@ -36,7 +36,8 @@ public class Cell extends Sprite
 
         ought = new Sprite();
         ought.graphics.lineStyle(lineThickness);
-        ought.graphics.drawCircle(0, 0, shapeSize);
+        var halfShapeSize= shapeSize/2;
+        ought.graphics.drawCircle(halfShapeSize, halfShapeSize, halfShapeSize);
         ought.x = ought.y = lineThickness * 2;
         ought.visible = false;
         addChild(ought);

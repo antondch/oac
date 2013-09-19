@@ -3,7 +3,7 @@ package ru.dch.oac
 
 import flash.display.Sprite;
 import flash.text.TextField;
-[SWF(width=604,height=604)]
+[SWF(width=604,height=800)]
 public class Main extends Sprite
 {
     private var tableModel:TableModel;
