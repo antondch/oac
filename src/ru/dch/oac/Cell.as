@@ -36,7 +36,7 @@ public class Cell extends Sprite
 
         ought = new Sprite();
         ought.graphics.lineStyle(lineThickness);
-        var halfShapeSize= shapeSize/2;
+        var halfShapeSize:int = shapeSize / 2;
         ought.graphics.drawCircle(halfShapeSize, halfShapeSize, halfShapeSize);
         ought.x = ought.y = lineThickness * 2;
         ought.visible = false;
@@ -78,6 +78,7 @@ public class Cell extends Sprite
                     ought.visible = false;
                 }
             }
+            _currentType = type;
         }
     }
 

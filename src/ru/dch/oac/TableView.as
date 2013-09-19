@@ -35,10 +35,10 @@ public class TableView extends Sprite
     {
         model.addEventListener(CellEvent.CELL_CHANGED, model_cell_changedHandler);
         model.addEventListener(GameEvent.CURRENT_PLAYER_CHANGED, model_current_player_changedHandler);
-        model.addEventListener(GameEvent.SCORE_CHANGED, model_score_text_changedHandler);
+        model.addEventListener(GameEvent.NEXT_GAME, model_next_game_handler);
 
         tableContainer = new Sprite();
-        tableContainer.y = 80;
+        tableContainer.y = 100;
         addChild(tableContainer);
         infoTextField = new TextField();
         infoTextField.text = "Player1";
@@ -46,14 +46,15 @@ public class TableView extends Sprite
 
         scoreTextField = new TextField();
         scoreTextField.text = "Player1:";
-        addChild(infoTextField);
+        scoreTextField.y = 30;
+        addChild(scoreTextField);
 
         cells = new Vector.<Cell>();
         var lineThickness:int = model.lineThickness;
         var cellSize:int = model.cellSize;
-        for (var row:int = 0; row < 3; row++)
+        for (var row:int = 0; row < model.tableSize; row++)
         {
-            for (var col:int = 0; col < 3; col++)
+            for (var col:int = 0; col < model.tableSize; col++)
             {
                 var cell:Cell = new Cell(lineThickness, cellSize, col, row);
                 cell.x = col * cellSize;
@@ -63,26 +64,38 @@ public class TableView extends Sprite
                 tableContainer.addChild(cell);
             }
         }
+
+        reset();
     }
 
     private function model_cell_changedHandler(event:CellEvent):void
     {
-        cells[event.col+event.row*3].setType(event.cellType);
+        cells[event.col + event.row * model.tableSize].setType(event.cellType);
     }
 
     private function cell_clickHandler(event:MouseEvent):void
     {
-       dispatchEvent(new CellEvent(CellEvent.CELL_CLICKED,Cell(event.target).col,Cell(event.target).row));
+        dispatchEvent(new CellEvent(CellEvent.CELL_CLICKED, Cell(event.target).col, Cell(event.target).row));
     }
 
     private function model_current_player_changedHandler(event:GameEvent):void
     {
-        setInfoText(Player(model.getPlayer(model.currentPlayer)).name+"'s turn.");
+        setInfoText(Player(model.getPlayer(model.currentPlayer)).name + "'s turn.");
     }
 
-    private function model_score_text_changedHandler(event:GameEvent):void
+    private function model_next_game_handler(event:GameEvent):void
     {
-        setScoreText(Player(model.getPlayer(0)).name+": "+Player(model.getPlayer(0)).score+"\n"+Player(model.getPlayer(1)).name+": "+Player(model.getPlayer(1)).score);
+        reset();
+    }
+
+    private function reset():void
+    {
+        for each(var cell:Cell in cells)
+        {
+            cell.setType(CellTypes.EMPTY_CELL);
+        }
+        setScoreText(Player(model.getPlayer(0)).name + " score: " + Player(model.getPlayer(0)).score + "\n" + Player(model.getPlayer(1)).name + " score: " + Player(model.getPlayer(1)).score);
+        model_current_player_changedHandler(null);
     }
 }
 }

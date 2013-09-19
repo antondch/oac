@@ -7,7 +7,7 @@ import flash.events.Event;
 
 public class GameEvent extends Event
 {
-    public static const SCORE_CHANGED:String = "score_text_changed";
+    public static const NEXT_GAME:String = "next_game";
     public static const PLAYER_NAME_CHANGED:String = "player_name_changed";
     public static const CURRENT_PLAYER_CHANGED:String = "info_text_changed";
 
