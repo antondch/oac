@@ -23,13 +23,17 @@ public class TableModel extends EventDispatcher
         players = new Vector.<Player>();
         players.push(new Player("Player1"));
         players.push(new Player("Player2"));
-        players[0].cellType=CellTypes.CROSS_CELL;
-        players[1].cellType=CellTypes.OUGHT_CELL;
+        players[0].cellType = CellTypes.CROSS_CELL;
+        players[1].cellType = CellTypes.OUGHT_CELL;
 
         _table = new Vector.<Vector.<String>>();
         for (var i:int = 0; i < 3; i++)
         {
-            _table.push(new Vector.<String>())
+            _table.push(new Vector.<String>());
+            for (var j:int = 0; j < 3; j++)
+            {
+                _table[i].push(CellTypes.EMPTY_CELL);
+            }
         }
     }
 
@@ -48,7 +52,7 @@ public class TableModel extends EventDispatcher
         if ((id < 2) && (id > -1))
         {
             return players[id];
-        }else
+        } else
         {
             return null;
         }
@@ -56,13 +60,8 @@ public class TableModel extends EventDispatcher
 
     public function makeTurn(cell:Cell):void
     {
-        switch(currentPlayer)
-        {
-            case 0:
-            {
-                
-            }
-        }
+        _table[cell.col][cell.row] = players[currentPlayer].cellType;
+        dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED,cell.col,cell.row,cell.currentType));
     }
 
     public function get lineThickness():int

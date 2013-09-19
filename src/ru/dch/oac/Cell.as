@@ -3,14 +3,12 @@
  */
 package ru.dch.oac
 {
-import flash.display.Shape;
 import flash.display.Sprite;
-import flash.geom.Point;
 
 public class Cell extends Sprite
 {
 
-    private var currentType:String = CellTypes.EMPTY_CELL;
+    private var _currentType:String = CellTypes.EMPTY_CELL;
     private var cellSize:int;
     private var lineThickness:int;
     private var ought:Sprite;
@@ -57,7 +55,7 @@ public class Cell extends Sprite
 
     public function setType(type:String):void
     {
-        if (currentType != type)
+        if (_currentType != type)
         {
             switch (type)
             {
@@ -100,6 +98,16 @@ public class Cell extends Sprite
     public function set row(value:int):void
     {
         _row = value;
+    }
+
+    public function get currentType():String
+    {
+        return _currentType;
+    }
+
+    public function set currentType(value:String):void
+    {
+        _currentType = value;
     }
 }
 }
