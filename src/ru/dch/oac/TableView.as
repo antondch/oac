@@ -7,8 +7,6 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.text.TextField;
 
-import ru.dch.oac.Player;
-
 public class TableView extends Sprite
 {
     private var cells:Vector.<Cell>;
@@ -35,7 +33,7 @@ public class TableView extends Sprite
 
     private function init():void
     {
-        model.addEventListener(CellChangedEvent.CELL_CHANGED, model_cell_changedHandler);
+        model.addEventListener(CellEvent.CELL_CHANGED, model_cell_changedHandler);
         model.addEventListener(GameEvent.CURRENT_PLAYER_CHANGED, model_current_player_changedHandler);
         model.addEventListener(GameEvent.SCORE_CHANGED, model_score_text_changedHandler);
 
@@ -61,19 +59,20 @@ public class TableView extends Sprite
                 cell.x = col * cellSize;
                 cell.y = row * cellSize;
                 cell.addEventListener(MouseEvent.CLICK, cell_clickHandler);
+                cells.push(cell);
                 tableContainer.addChild(cell);
             }
         }
     }
 
-    private function model_cell_changedHandler(event:CellChangedEvent):void
+    private function model_cell_changedHandler(event:CellEvent):void
     {
-        trace("changed");
+        cells[event.col+event.row*3].setType(event.cellType);
     }
 
     private function cell_clickHandler(event:MouseEvent):void
     {
-        trace("clicked");
+       dispatchEvent(new CellEvent(CellEvent.CELL_CLICKED,Cell(event.target).col,Cell(event.target).row));
     }
 
     private function model_current_player_changedHandler(event:GameEvent):void

@@ -3,25 +3,25 @@
  */
 package ru.dch.oac
 {
-import flash.display.Shape;
 import flash.display.Sprite;
-import flash.geom.Point;
 
 public class Cell extends Sprite
 {
 
-    private var currentType:String = CellTypes.EMPTY_CELL;
+    private var _currentType:String = CellTypes.EMPTY_CELL;
     private var cellSize:int;
     private var lineThickness:int;
     private var ought:Sprite;
     private var cross:Sprite;
-    private var _place:Point;
+    private var _col:int;
+    private var _row:int;
 
     public function Cell(lineThickness:int, cellSize:int, col:int, row:int):void
     {
         this.lineThickness = lineThickness;
         this.cellSize = cellSize;
-        _place = new Point(col, row);
+        this._col = col;
+        this._row = row;
         draw();
     }
 
@@ -36,7 +36,8 @@ public class Cell extends Sprite
 
         ought = new Sprite();
         ought.graphics.lineStyle(lineThickness);
-        ought.graphics.drawCircle(0, 0, shapeSize);
+        var halfShapeSize= shapeSize/2;
+        ought.graphics.drawCircle(halfShapeSize, halfShapeSize, halfShapeSize);
         ought.x = ought.y = lineThickness * 2;
         ought.visible = false;
         addChild(ought);
@@ -55,7 +56,7 @@ public class Cell extends Sprite
 
     public function setType(type:String):void
     {
-        if (currentType != type)
+        if (_currentType != type)
         {
             switch (type)
             {
@@ -80,14 +81,24 @@ public class Cell extends Sprite
         }
     }
 
-    public function get place():Point
+    public function get col():int
     {
-        return _place;
+        return _col;
     }
 
-    public function set place(value:Point):void
+    public function set col(value:int):void
     {
-        _place = value;
+        _col = value;
+    }
+
+    public function get row():int
+    {
+        return _row;
+    }
+
+    public function set row(value:int):void
+    {
+        _row = value;
     }
 }
 }
