@@ -51,9 +51,9 @@ public class TableView extends Sprite
         cells = new Vector.<Cell>();
         var lineThickness:int = model.lineThickness;
         var cellSize:int = model.cellSize;
-        for (var row:int = 0; row < 3; row++)
+        for (var row:int = 0; row < model.tableSize; row++)
         {
-            for (var col:int = 0; col < 3; col++)
+            for (var col:int = 0; col < model.tableSize; col++)
             {
                 var cell:Cell = new Cell(lineThickness, cellSize, col, row);
                 cell.x = col * cellSize;
@@ -67,7 +67,7 @@ public class TableView extends Sprite
 
     private function model_cell_changedHandler(event:CellEvent):void
     {
-        cells[event.col+event.row*3].setType(event.cellType);
+        cells[event.col+event.row*model.tableSize].setType(event.cellType);
     }
 
     private function cell_clickHandler(event:MouseEvent):void

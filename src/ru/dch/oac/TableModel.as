@@ -12,9 +12,13 @@ public class TableModel extends EventDispatcher
     private var _currentPlayer:int;
     private var _cellSize:int = 200;
     private var players:Vector.<Player>;
+    private var _tableSize:int;
+    private var _winSize:int;
 
-    public function TableModel():void
+    public function TableModel(tableSize:int=3,winSize:int=3):void
     {
+        this._tableSize = tableSize;
+        this._winSize = winSize;
         init();
     }
 
@@ -27,10 +31,10 @@ public class TableModel extends EventDispatcher
         players[1].cellType = CellTypes.OUGHT_CELL;
 
         _table = new Vector.<Vector.<String>>();
-        for (var i:int = 0; i < 3; i++)
+        for (var i:int = 0; i < _tableSize; i++)
         {
             _table.push(new Vector.<String>());
-            for (var j:int = 0; j < 3; j++)
+            for (var j:int = 0; j < _tableSize; j++)
             {
                 _table[i].push(CellTypes.EMPTY_CELL);
             }
@@ -66,7 +70,20 @@ public class TableModel extends EventDispatcher
             _table[col][row] = players[currentPlayer].cellType;
             dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED, col, row, players[currentPlayer].cellType));
             currentPlayer == 0 ? currentPlayer = 1 : currentPlayer = 0;
+            testWin(col, row);
         }
+    }
+
+    private function testWin(col:int, row:int):void
+    {
+//        var testCol:int = col;
+//        var testRow:int = row;
+//        var
+//        //test west
+//        if(_table[col-1])
+//        {
+//            testCol--
+//        }
     }
 
     public function get lineThickness():int
@@ -98,6 +115,16 @@ public class TableModel extends EventDispatcher
     {
         _currentPlayer = value;
         dispatchEvent(new GameEvent(GameEvent.CURRENT_PLAYER_CHANGED));
+    }
+
+    public function get tableSize():int
+    {
+        return _tableSize;
+    }
+
+    public function get winSize():int
+    {
+        return _winSize;
     }
 }
 }
