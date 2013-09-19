@@ -69,7 +69,7 @@ public class TableModel extends EventDispatcher
         {
             _table[col][row] = players[currentPlayer].cellType;
             dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED, col, row, players[currentPlayer].cellType));
-            if(testWin(col, row))
+            if (testWin(col, row))
             {
                 players[currentPlayer].score++;
                 nextGame();
@@ -84,34 +84,98 @@ public class TableModel extends EventDispatcher
         {
             for (var j:int = 0; j < _tableSize; j++)
             {
-                _table[j][i]=CellTypes.EMPTY_CELL;
+                _table[j][i] = CellTypes.EMPTY_CELL;
             }
         }
+        dispatchEvent(new GameEvent(GameEvent.NEXT_GAME));
     }
 
     private function testWin(col:int, row:int):Boolean
     {
-        var testCol:int = col;
-        var testRow:int = row;
         var line:int = 1;
-        //test west
-        if (_table[col - 1] && _table[col - 1][row] == _table[col][row])
-        {
-            line++;
-        }
-        if (_table[col - 2] && _table[col - 2][row] == _table[col][row])
-        {
-            line++;
-        }
-        if (_table[col + 1] && _table[col - 1][row] == _table[col][row])
-        {
-            line++;
-        }
-        if (_table[col + 2] && _table[col + 2][row] == _table[col][row])
-        {
-            line++;
-        }
 
+        //test west-east
+        if (col - 1 > -1 && _table[col - 1][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (col - 2 > -1 && _table[col - 2][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (col + 1 < tableSize && _table[col + 1][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (col + 2 < tableSize && _table[col + 2][row] == _table[col][row])
+        {
+            line++;
+        }
+        //test north-south
+        if (line < 3)
+        {
+            line = 1;
+            if (row - 1 > -1 && _table[col][row - 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (row - 2 > -1 && _table[col][row - 2] == _table[col][row])
+            {
+                line++;
+            }
+            if (row + 1 < tableSize && _table[col][row + 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (row + 2 < tableSize && _table[col][row + 2] == _table[col][row])
+            {
+                line++;
+            }
+        }
+        //test nw-se
+        if (line < 3)
+        {
+            line = 1;
+            if (row - 1 > -1 && col - 1 > -1 && _table[col - 1][row - 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (row - 2 > -1 && col - 2 > -1 && _table[col - 2][row - 2] == _table[col][row])
+            {
+                line++;
+            }
+            if (row + 1 < tableSize && col + 1 < tableSize && _table[col + 1][row + 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (row + 2 < tableSize && col + 2 < tableSize && _table[col + 2][row + 2] == _table[col][row])
+            {
+                line++;
+            }
+        }
+        //test ne-sw
+        if (line < 3)
+        {
+            line = 1;
+            if (row + 1 < tableSize && col - 1 > -1 && _table[col - 1][row + 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (row + 2 < tableSize && col - 2 > -1 && _table[col - 2][row + 2] == _table[col][row])
+            {
+                line++;
+            }
+            if (col + 1 < tableSize && row - 1 > -1 && _table[col + 1][row - 1] == _table[col][row])
+            {
+                line++;
+            }
+            if (col + 2 < tableSize && row - 2 > -1 && _table[col + 2][row - 2] == _table[col][row])
+            {
+                line++;
+            }
+        }
+        trace(line);
+        return line > 2;
     }
 
     public function get lineThickness():int

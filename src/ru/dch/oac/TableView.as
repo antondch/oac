@@ -38,7 +38,7 @@ public class TableView extends Sprite
         model.addEventListener(GameEvent.NEXT_GAME, model_next_game_handler);
 
         tableContainer = new Sprite();
-        tableContainer.y = 80;
+        tableContainer.y = 100;
         addChild(tableContainer);
         infoTextField = new TextField();
         infoTextField.text = "Player1";
@@ -46,7 +46,8 @@ public class TableView extends Sprite
 
         scoreTextField = new TextField();
         scoreTextField.text = "Player1:";
-        addChild(infoTextField);
+        scoreTextField.y = 30;
+        addChild(scoreTextField);
 
         cells = new Vector.<Cell>();
         var lineThickness:int = model.lineThickness;
@@ -63,6 +64,8 @@ public class TableView extends Sprite
                 tableContainer.addChild(cell);
             }
         }
+
+        reset();
     }
 
     private function model_cell_changedHandler(event:CellEvent):void
@@ -82,16 +85,16 @@ public class TableView extends Sprite
 
     private function model_next_game_handler(event:GameEvent):void
     {
-        resetGame();
+        reset();
     }
 
-    private function resetGame():void
+    private function reset():void
     {
-        for each (var cell:Cell in cells)
+        for each(var cell:Cell in cells)
         {
             cell.setType(CellTypes.EMPTY_CELL);
         }
-        setScoreText(Player(model.getPlayer(0)).name + ": " + Player(model.getPlayer(0)).score + "\n" + Player(model.getPlayer(1)).name + ": " + Player(model.getPlayer(1)).score);
+        setScoreText(Player(model.getPlayer(0)).name + " score: " + Player(model.getPlayer(0)).score + "\n" + Player(model.getPlayer(1)).name + " score: " + Player(model.getPlayer(1)).score);
         model_current_player_changedHandler(null);
     }
 }
