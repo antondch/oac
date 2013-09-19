@@ -45,6 +45,7 @@ public class TableModel extends EventDispatcher
             players[playerId].name = name;
             dispatchEvent(new GameEvent(GameEvent.PLAYER_NAME_CHANGED));
         }
+        return result;
     }
 
     public function getPlayer(id:int):Player
@@ -58,10 +59,10 @@ public class TableModel extends EventDispatcher
         }
     }
 
-    public function makeTurn(cell:Cell):void
+    public function makeTurn(col:int,row:int):void
     {
-        _table[cell.col][cell.row] = players[currentPlayer].cellType;
-        dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED,cell.col,cell.row,cell.currentType));
+        _table[col][row] = players[currentPlayer].cellType;
+        dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED,col,row,players[currentPlayer].cellType));
     }
 
     public function get lineThickness():int

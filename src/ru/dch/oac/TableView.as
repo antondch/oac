@@ -59,6 +59,7 @@ public class TableView extends Sprite
                 cell.x = col * cellSize;
                 cell.y = row * cellSize;
                 cell.addEventListener(MouseEvent.CLICK, cell_clickHandler);
+                cells.push(cell);
                 tableContainer.addChild(cell);
             }
         }
@@ -66,7 +67,7 @@ public class TableView extends Sprite
 
     private function model_cell_changedHandler(event:CellEvent):void
     {
-        trace("changed");
+        cells[event.col+event.row*3].setType(event.cellType);
     }
 
     private function cell_clickHandler(event:MouseEvent):void

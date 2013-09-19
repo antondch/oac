@@ -20,7 +20,7 @@ public class Main extends Sprite
 
     private function tableView_cell_clickedHandler(event:CellEvent):void
     {
-        tableModel.makeTurn(Cell(event.target));
+        tableModel.makeTurn(event.col,event.row);
     }
 }
 }

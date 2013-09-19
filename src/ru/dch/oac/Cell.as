@@ -99,15 +99,5 @@ public class Cell extends Sprite
     {
         _row = value;
     }
-
-    public function get currentType():String
-    {
-        return _currentType;
-    }
-
-    public function set currentType(value:String):void
-    {
-        _currentType = value;
-    }
 }
 }
