@@ -7,6 +7,7 @@ public class Player
 {
     private var _name:String;
     private var _score:int;
+    private var _cellType:String
 
     public function Player(name:String):void
     {
@@ -31,6 +32,16 @@ public class Player
     public function set score(value:int):void
     {
         _score = value;
+    }
+
+    public function get cellType():String
+    {
+        return _cellType;
+    }
+
+    public function set cellType(value:String):void
+    {
+        _cellType = value;
     }
 }
 }

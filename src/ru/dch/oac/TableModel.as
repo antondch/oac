@@ -23,6 +23,8 @@ public class TableModel extends EventDispatcher
         players = new Vector.<Player>();
         players.push(new Player("Player1"));
         players.push(new Player("Player2"));
+        players[0].cellType=CellTypes.CROSS_CELL;
+        players[1].cellType=CellTypes.OUGHT_CELL;
 
         _table = new Vector.<Vector.<String>>();
         for (var i:int = 0; i < 3; i++)
@@ -49,6 +51,17 @@ public class TableModel extends EventDispatcher
         }else
         {
             return null;
+        }
+    }
+
+    public function makeTurn(cell:Cell):void
+    {
+        switch(currentPlayer)
+        {
+            case 0:
+            {
+                
+            }
         }
     }
 

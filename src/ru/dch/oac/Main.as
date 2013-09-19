@@ -14,6 +14,13 @@ public class Main extends Sprite
         tableModel = new TableModel();
         tableView = new TableView(tableModel);
         addChild(tableView);
+
+        tableView.addEventListener(CellEvent.CELL_CLICKED, tableView_cell_clickedHandler);
+    }
+
+    private function tableView_cell_clickedHandler(event:CellEvent):void
+    {
+        tableModel.makeTurn(Cell(event.target));
     }
 }
 }
