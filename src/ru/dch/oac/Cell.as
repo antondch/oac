@@ -15,13 +15,15 @@ public class Cell extends Sprite
     private var lineThickness:int;
     private var ought:Sprite;
     private var cross:Sprite;
-    private var _place:Point;
+    private var _col:int;
+    private var _row:int;
 
     public function Cell(lineThickness:int, cellSize:int, col:int, row:int):void
     {
         this.lineThickness = lineThickness;
         this.cellSize = cellSize;
-        _place = new Point(col, row);
+        this._col = col;
+        this._row = row;
         draw();
     }
 
@@ -80,14 +82,24 @@ public class Cell extends Sprite
         }
     }
 
-    public function get place():Point
+    public function get col():int
     {
-        return _place;
+        return _col;
     }
 
-    public function set place(value:Point):void
+    public function set col(value:int):void
     {
-        _place = value;
+        _col = value;
+    }
+
+    public function get row():int
+    {
+        return _row;
+    }
+
+    public function set row(value:int):void
+    {
+        _row = value;
     }
 }
 }
