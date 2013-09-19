@@ -35,7 +35,7 @@ public class TableView extends Sprite
     {
         model.addEventListener(CellEvent.CELL_CHANGED, model_cell_changedHandler);
         model.addEventListener(GameEvent.CURRENT_PLAYER_CHANGED, model_current_player_changedHandler);
-        model.addEventListener(GameEvent.SCORE_CHANGED, model_score_text_changedHandler);
+        model.addEventListener(GameEvent.NEXT_GAME, model_next_game_handler);
 
         tableContainer = new Sprite();
         tableContainer.y = 80;
@@ -67,22 +67,32 @@ public class TableView extends Sprite
 
     private function model_cell_changedHandler(event:CellEvent):void
     {
-        cells[event.col+event.row*model.tableSize].setType(event.cellType);
+        cells[event.col + event.row * model.tableSize].setType(event.cellType);
     }
 
     private function cell_clickHandler(event:MouseEvent):void
     {
-       dispatchEvent(new CellEvent(CellEvent.CELL_CLICKED,Cell(event.target).col,Cell(event.target).row));
+        dispatchEvent(new CellEvent(CellEvent.CELL_CLICKED, Cell(event.target).col, Cell(event.target).row));
     }
 
     private function model_current_player_changedHandler(event:GameEvent):void
     {
-        setInfoText(Player(model.getPlayer(model.currentPlayer)).name+"'s turn.");
+        setInfoText(Player(model.getPlayer(model.currentPlayer)).name + "'s turn.");
     }
 
-    private function model_score_text_changedHandler(event:GameEvent):void
+    private function model_next_game_handler(event:GameEvent):void
     {
-        setScoreText(Player(model.getPlayer(0)).name+": "+Player(model.getPlayer(0)).score+"\n"+Player(model.getPlayer(1)).name+": "+Player(model.getPlayer(1)).score);
+        resetGame();
+    }
+
+    private function resetGame():void
+    {
+        for each (var cell:Cell in cells)
+        {
+            cell.setType(CellTypes.EMPTY_CELL);
+        }
+        setScoreText(Player(model.getPlayer(0)).name + ": " + Player(model.getPlayer(0)).score + "\n" + Player(model.getPlayer(1)).name + ": " + Player(model.getPlayer(1)).score);
+        model_current_player_changedHandler(null);
     }
 }
 }

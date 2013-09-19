@@ -15,7 +15,7 @@ public class TableModel extends EventDispatcher
     private var _tableSize:int;
     private var _winSize:int;
 
-    public function TableModel(tableSize:int=3,winSize:int=3):void
+    public function TableModel(tableSize:int = 3, winSize:int = 3):void
     {
         this._tableSize = tableSize;
         this._winSize = winSize;
@@ -69,21 +69,49 @@ public class TableModel extends EventDispatcher
         {
             _table[col][row] = players[currentPlayer].cellType;
             dispatchEvent(new CellEvent(CellEvent.CELL_CHANGED, col, row, players[currentPlayer].cellType));
+            if(testWin(col, row))
+            {
+                players[currentPlayer].score++;
+                nextGame();
+            }
             currentPlayer == 0 ? currentPlayer = 1 : currentPlayer = 0;
-            testWin(col, row);
         }
     }
 
-    private function testWin(col:int, row:int):void
+    private function nextGame():void
     {
-//        var testCol:int = col;
-//        var testRow:int = row;
-//        var
-//        //test west
-//        if(_table[col-1])
-//        {
-//            testCol--
-//        }
+        for (var i:int = 0; i < _tableSize; i++)
+        {
+            for (var j:int = 0; j < _tableSize; j++)
+            {
+                _table[j][i]=CellTypes.EMPTY_CELL;
+            }
+        }
+    }
+
+    private function testWin(col:int, row:int):Boolean
+    {
+        var testCol:int = col;
+        var testRow:int = row;
+        var line:int = 1;
+        //test west
+        if (_table[col - 1] && _table[col - 1][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (_table[col - 2] && _table[col - 2][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (_table[col + 1] && _table[col - 1][row] == _table[col][row])
+        {
+            line++;
+        }
+        if (_table[col + 2] && _table[col + 2][row] == _table[col][row])
+        {
+            line++;
+        }
+
     }
 
     public function get lineThickness():int
