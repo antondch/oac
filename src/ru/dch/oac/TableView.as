@@ -4,12 +4,11 @@
 package ru.dch.oac
 {
 import flash.display.Sprite;
+import flash.events.MouseEvent;
 
-import ru.dch.oac.mvc.IView;
-
-public class TableView extends Sprite implements IView
+public class TableView extends Sprite
 {
-    private var cells:Vector.<Sprite>;
+    private var cells:Vector.<Cell>;
 
     private var _model:TableModel;
 
@@ -21,17 +20,23 @@ public class TableView extends Sprite implements IView
 
     private function init():void
     {
-        cells = new Vector.<Sprite>();
-        for (var i:int = 0; i < 9; i++)
+        model.addEventListener(CellChangedEvent.CELL_CHANGED, model_cell_changedHandler);
+        cells = new Vector.<Cell>();
+        var lineThickness:int = model.lineThickness;
+        var cellSize:int = model.cellSize;
+        for (var row:int = 0; row < 3; row++)
         {
-            var cell:Sprite = new Sprite();
+            for (var col:int = 0; col < 3; col++)
+            {
+                var cell:Cell = new Cell(lineThickness, cellSize, col, row);
+                cell.x = col * cellSize;
+                cell.y = row * cellSize;
+                cell.addEventListener(MouseEvent.CLICK, cell_clickHandler);
+                addChild(cell);
+            }
         }
     }
 
-    private function draw():void
-    {
-
-    }
 
     public function set model(value:TableModel):void
     {
@@ -43,14 +48,14 @@ public class TableView extends Sprite implements IView
         return _model;
     }
 
-    private function draw():void
+    private function model_cell_changedHandler(event:CellChangedEvent):void
     {
-
+        trace("changed");
     }
 
-    public function update():void
+    private function cell_clickHandler(event:MouseEvent):void
     {
-
+        trace("clicked");
     }
 }
 }
